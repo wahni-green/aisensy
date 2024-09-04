@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe import _
 from frappe.utils.safe_exec import safe_eval
 import requests
 
@@ -59,6 +60,13 @@ class AiSensy():
                 "username": safe_eval(destination.destination_user, None, self.context),
             })
 
+        self.destination = list(set(self.destination))
+        if not self.destination:
+            frappe.msgprint(
+                _("{0}: No destination number found for notification")
+                .format(notification_doc.title)
+            )
+
         for param in notification_doc.params:
             self.params.append(
                 str(safe_eval(param.parameter_field, None, self.context))
@@ -81,7 +89,10 @@ class AiSensy():
                     )
                 response.raise_for_status()
             except Exception as e:
-                frappe.msgprint(f"Error sending notification: {e}")
+                frappe.msgprint(
+                    _("Error sending notification: {0}")
+                    .format(e)
+                )
 
 
 def send_notification(doc, method):
