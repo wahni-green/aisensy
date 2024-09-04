@@ -22,6 +22,7 @@ class AiSensy():
         self.params = []
         self.doc = doc
         self.context = doc.as_dict()
+        self.is_success = True
 
     def is_enabled(self):
         return self.enabled
@@ -31,9 +32,16 @@ class AiSensy():
             return
         
         self.get_valid_notifications(event)
+        if not self.valid_notifications:
+            return
+
+        frappe.msgprint(_("Sending WhatsApp notification for {0}").format(self.doc.name))
         for notification in self.valid_notifications:
             self.get_destination_and_params(notification)
             self._send_notification(notification.campaign)
+
+        if self.is_success:
+            frappe.msgprint(_("WhatsApp notification sent successfully for {0}").format(self.doc.name))
 
     def get_valid_notifications(self, event):
         self.valid_notifications = []
@@ -54,14 +62,20 @@ class AiSensy():
     def get_destination_and_params(self, notification_doc):
         self.destination = []
         self.params = []
+        duplicate_nos = []
         for destination in notification_doc.destinations:
-            self.destination.append({
+            data = {
                 "number": safe_eval(destination.destination_no_field, None, self.context),
                 "username": safe_eval(destination.destination_user, None, self.context),
-            })
+            }
+            if data["number"] in duplicate_nos:
+                continue
+            if data["number"] and data["username"]:
+                duplicate_nos.append(data["number"])
+                self.destination.append(data)
 
-        self.destination = list(set(self.destination))
         if not self.destination:
+            self.is_success = False
             frappe.msgprint(
                 _("{0}: No destination number found for notification")
                 .format(notification_doc.title)
@@ -89,6 +103,7 @@ class AiSensy():
                     )
                 response.raise_for_status()
             except Exception as e:
+                self.is_success = False
                 frappe.msgprint(
                     _("Error sending notification: {0}")
                     .format(e)
