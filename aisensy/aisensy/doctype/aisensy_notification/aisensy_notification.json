@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-04 12:57:10.142500",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "section_break_vlvi",
+  "title",
+  "document_type",
+  "campaign",
+  "condition",
+  "column_break_jpha",
+  "event",
+  "destinations",
+  "params"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "document_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Document Type",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_jpha",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "event",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Event",
+   "options": "\nSave\nSubmit",
+   "reqd": 1
+  },
+  {
+   "fieldname": "condition",
+   "fieldtype": "Code",
+   "label": "Condition"
+  },
+  {
+   "fieldname": "section_break_vlvi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "campaign",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Campaign",
+   "reqd": 1
+  },
+  {
+   "fieldname": "destinations",
+   "fieldtype": "Table",
+   "label": "Destinations",
+   "options": "AiSensy Notification Destination",
+   "reqd": 1
+  },
+  {
+   "fieldname": "params",
+   "fieldtype": "Table",
+   "label": "Params",
+   "options": "AiSensy Notification Param"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-09-04 13:12:03.183811",
+ "modified_by": "Administrator",
+ "module": "AiSensy",
+ "name": "AiSensy Notification",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,45 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-04 13:05:48.537979",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "destination_no_field",
+  "column_break_sbkn",
+  "destination_user"
+ ],
+ "fields": [
+  {
+   "fieldname": "destination_no_field",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Destination No Field",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_sbkn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "destination_user",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Destination User",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-09-04 14:50:17.166550",
+ "modified_by": "Administrator",
+ "module": "AiSensy",
+ "name": "AiSensy Notification Destination",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
