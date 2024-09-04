@@ -38,7 +38,7 @@ class AiSensy():
         frappe.msgprint(_("Sending WhatsApp notification for {0}").format(self.doc.name))
         for notification in self.valid_notifications:
             self.get_destination_and_params(notification)
-            self._send_notification(notification.campaign)
+            self._send_notification(notification.campaign, notification.send_pdf)
 
         if self.is_success:
             frappe.msgprint(_("WhatsApp notification sent successfully for {0}").format(self.doc.name))
@@ -86,19 +86,32 @@ class AiSensy():
                 str(safe_eval(param.parameter_field, None, self.context))
             )
 
-    def _send_notification(self, campaign):
+    def generate_media_url(self):
+        from frappe.utils import get_url
+        return "{0}/api/method/frappe.utils.print_format.download_pdf?doctype={1}&name={2}&key={3}".format(
+            get_url(), self.doc.doctype, self.doc.name, self.doc.get_document_share_key()
+        )
+
+    def _send_notification(self, campaign, send_media=False):
         for destination in self.destination:
             try:
-                response = requests.post(self.settings.url, json={
+                payload = {
                     "apiKey": self.settings.get_password("api_key"),
                     "campaignName": campaign,
                     "destination": destination["number"],
                     "userName": destination["username"],
                     "templateParams": self.params,
-                })
+                }
+                if send_media:
+                    payload["media"] = {}
+                    payload["media"]["url"] = self.generate_media_url()
+                    payload["media"]["filename"] = self.doc.name
+
+                frappe.log_error("payload", str(payload))
+                response = requests.post(self.settings.url, json=payload)
                 if response.status_code != 200:
                     frappe.log_error(
-                        title= f"Error sending notification: {e}",
+                        title= f"Error sending notification",
                         message=str(response.json())
                     )
                 response.raise_for_status()

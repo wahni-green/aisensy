@@ -14,7 +14,8 @@
   "column_break_jpha",
   "event",
   "destinations",
-  "params"
+  "params",
+  "send_pdf"
  ],
  "fields": [
   {
@@ -78,11 +79,17 @@
    "fieldtype": "Table",
    "label": "Params",
    "options": "AiSensy Notification Param"
+  },
+  {
+   "default": "0",
+   "fieldname": "send_pdf",
+   "fieldtype": "Check",
+   "label": "Send PDF"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-04 13:12:03.183811",
+ "modified": "2024-09-04 16:48:23.833995",
  "modified_by": "Administrator",
  "module": "AiSensy",
  "name": "AiSensy Notification",
