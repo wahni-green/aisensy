@@ -38,7 +38,11 @@ class AiSensy():
         frappe.msgprint(_("Sending WhatsApp notification for {0}").format(self.doc.name))
         for notification in self.valid_notifications:
             self.get_destination_and_params(notification)
-            self._send_notification(notification.campaign, notification.send_pdf)
+            self._send_notification(
+                notification.campaign,
+                notification.send_pdf,
+                notification.print_format
+            )
 
         if self.is_success:
             frappe.msgprint(_("WhatsApp notification sent successfully for {0}").format(self.doc.name))
@@ -86,13 +90,13 @@ class AiSensy():
                 str(safe_eval(param.parameter_field, None, self.context))
             )
 
-    def generate_media_url(self):
+    def generate_media_url(self, print_format=None):
         from frappe.utils import get_url
-        return "{0}/api/method/frappe.utils.print_format.download_pdf?doctype={1}&name={2}&key={3}".format(
-            get_url(), self.doc.doctype, self.doc.name, self.doc.get_document_share_key()
+        return "{0}/api/method/frappe.utils.print_format.download_pdf?doctype={1}&name={2}&format={3}&key={4}".format(
+            get_url(), self.doc.doctype, self.doc.name, print_format, self.doc.get_document_share_key()
         )
 
-    def _send_notification(self, campaign, send_media=False):
+    def _send_notification(self, campaign, send_media=False, print_format=None):
         for destination in self.destination:
             try:
                 payload = {
@@ -104,10 +108,9 @@ class AiSensy():
                 }
                 if send_media:
                     payload["media"] = {}
-                    payload["media"]["url"] = self.generate_media_url()
+                    payload["media"]["url"] = self.generate_media_url(print_format)
                     payload["media"]["filename"] = self.doc.name
 
-                frappe.log_error("payload", str(payload))
                 response = requests.post(self.settings.url, json=payload)
                 if response.status_code != 200:
                     frappe.log_error(

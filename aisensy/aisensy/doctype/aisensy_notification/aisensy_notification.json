@@ -15,7 +15,8 @@
   "event",
   "destinations",
   "params",
-  "send_pdf"
+  "send_pdf",
+  "print_format"
  ],
  "fields": [
   {
@@ -85,11 +86,17 @@
    "fieldname": "send_pdf",
    "fieldtype": "Check",
    "label": "Send PDF"
+  },
+  {
+   "fieldname": "print_format",
+   "fieldtype": "Link",
+   "label": "Print Format",
+   "options": "Print Format"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-04 16:48:23.833995",
+ "modified": "2024-09-11 10:36:36.600142",
  "modified_by": "Administrator",
  "module": "AiSensy",
  "name": "AiSensy Notification",
