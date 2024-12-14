@@ -49,7 +49,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Event",
-   "options": "\nSave\nSubmit",
+   "options": "\nSave\nSubmit\nCancel",
    "reqd": 1
   },
   {
@@ -96,7 +96,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-11 10:36:36.600142",
+ "modified": "2024-12-14 10:03:30.592218",
  "modified_by": "Administrator",
  "module": "AiSensy",
  "name": "AiSensy Notification",
